@@ -4,7 +4,7 @@ from cnvannot.annotations.base import base_coordinates_annotation
 
 
 def ucsc_get_annotation_link(query: GenomicCoordinates) -> dict:
-    res = "https://genome.ucsc.edu/cgi-bin/hgTracks?db=" + str(query.ref) + "&lastVirtModeType=default" \
+    res = "https://genome.ucsc.edu/cgi-bin/hgTracks?db=" + str(query.ref.replace("xcnv","")) + "&lastVirtModeType=default" \
                                                                             "&lastVirtModeExtraState=&virtModeType" \
                                                                             "=default" \
                                                                             "&virtMode=0&nonVirtPosition=&position=" + \
