@@ -1,0 +1,6 @@
+intervaltree
+docker
+flask
+flask_restful
+boto
+mysql-connector-python

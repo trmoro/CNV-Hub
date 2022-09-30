@@ -1,0 +1,58 @@
+Retrying.
+
+--2022-06-17 14:16:53--  (try: 7)  http://119.3.41.228/XCNV/data/hg19_ljb26_all_converted_scores.txt
+Connecting to 119.3.41.228:80... failed: Connection timed out.
+Retrying.
+
+--2022-06-17 14:19:09--  (try: 8)  http://119.3.41.228/XCNV/data/hg19_ljb26_all_converted_scores.txt
+Connecting to 119.3.41.228:80... failed: Connection timed out.
+Retrying.
+
+--2022-06-17 14:21:28--  (try: 9)  http://119.3.41.228/XCNV/data/hg19_ljb26_all_converted_scores.txt
+Connecting to 119.3.41.228:80... failed: Connection timed out.
+Retrying.
+
+--2022-06-17 14:23:46--  (try:10)  http://119.3.41.228/XCNV/data/hg19_ljb26_all_converted_scores.txt
+Connecting to 119.3.41.228:80... failed: Connection timed out.
+Retrying.
+
+--2022-06-17 14:26:06--  (try:11)  http://119.3.41.228/XCNV/data/hg19_ljb26_all_converted_scores.txt
+Connecting to 119.3.41.228:80... failed: Connection timed out.
+Retrying.
+
+--2022-06-17 14:28:25--  (try:12)  http://119.3.41.228/XCNV/data/hg19_ljb26_all_converted_scores.txt
+Connecting to 119.3.41.228:80... failed: Connection timed out.
+Retrying.
+
+--2022-06-17 14:30:45--  (try:13)  http://119.3.41.228/XCNV/data/hg19_ljb26_all_converted_scores.txt
+Connecting to 119.3.41.228:80... failed: Connection timed out.
+Retrying.
+
+--2022-06-17 14:33:04--  (try:14)  http://119.3.41.228/XCNV/data/hg19_ljb26_all_converted_scores.txt
+Connecting to 119.3.41.228:80... failed: Connection timed out.
+Retrying.
+
+--2022-06-17 14:35:23--  (try:15)  http://119.3.41.228/XCNV/data/hg19_ljb26_all_converted_scores.txt
+Connecting to 119.3.41.228:80... failed: Connection timed out.
+Retrying.
+
+--2022-06-17 14:37:42--  (try:16)  http://119.3.41.228/XCNV/data/hg19_ljb26_all_converted_scores.txt
+Connecting to 119.3.41.228:80... failed: Connection timed out.
+Retrying.
+
+--2022-06-17 14:40:02--  (try:17)  http://119.3.41.228/XCNV/data/hg19_ljb26_all_converted_scores.txt
+Connecting to 119.3.41.228:80... failed: Connection timed out.
+Retrying.
+
+--2022-06-17 14:42:21--  (try:18)  http://119.3.41.228/XCNV/data/hg19_ljb26_all_converted_scores.txt
+Connecting to 119.3.41.228:80... failed: Connection timed out.
+Retrying.
+
+--2022-06-17 14:44:40--  (try:19)  http://119.3.41.228/XCNV/data/hg19_ljb26_all_converted_scores.txt
+Connecting to 119.3.41.228:80... failed: Connection timed out.
+Retrying.
+
+--2022-06-17 14:46:59--  (try:20)  http://119.3.41.228/XCNV/data/hg19_ljb26_all_converted_scores.txt
+Connecting to 119.3.41.228:80... failed: Connection timed out.
+Giving up.
+
