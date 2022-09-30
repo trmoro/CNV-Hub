@@ -75,6 +75,11 @@ def do_xcnv(str_query: str):
 		csvreader = csv.DictReader(csvfile)
 		for row in csvreader:
 			return float(row["MVP_score"])
+	
+	#Remove temp files
+	os.remove("tmp.bed")
+	os.remove("tmp.sort.bed")
+	os.remove("tmp.output.csv")		
 
 #Search
 def search(str_query: str, organ: str, xcnv_on = False):

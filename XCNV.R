@@ -1,5 +1,5 @@
 #!/usr/bin/Rscript
-script.path="/home/ubuntu/Desktop/SARS-CNV/XCNV"
+script.path="/home/ubuntu/Desktop/CNV-Hub/XCNV"
 library(data.table)
 library(xgboost)
 data.path=paste(script.path,"/data/",sep="")
