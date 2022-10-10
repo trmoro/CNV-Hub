@@ -52,7 +52,7 @@ def omim_morbid_genes_load():
             if omim_id in ddg2p_dict:
                 organ_list = ddg2p_dict[omim_id]['organ_list']
 
-            hgnc_dict[refseq_id] = {'gene_aliases': parts[1] + '|' + parts[8], 'organ_list': organ_list}
+            hgnc_dict[refseq_id] = {'gene_aliases': parts[1] + '|' + parts[8], 'organ_list': organ_list, 'gene': parts[1] }
 
     with open(refseq_base_path) as f:
         for line in f:
@@ -67,7 +67,7 @@ def omim_morbid_genes_load():
                     # Add new interval tree as value
                     chr_dict[chrom] = IntervalTree()
                 try:
-                    chr_dict[chrom][start:stop] = {'chr': chrom, 'start': start, 'stop': stop,
+                    chr_dict[chrom][start:stop] = {'chr': chrom, 'start': start, 'stop': stop, 'gene': hgnc_dict[refseq_id]['gene'],
                                                    'omim_gene_aliases': hgnc_dict[refseq_id]['gene_aliases'],
                                                    'organ_list': hgnc_dict[refseq_id]['organ_list']}
                 except ValueError:

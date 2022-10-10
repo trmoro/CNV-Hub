@@ -20,10 +20,11 @@ from cnvannot.annotations.clinvar import clinvar_load
 from cnvannot.annotations.sfari import sfari_load
 from cnvannot.annotations.gene_stat import gene_stat_load
 from cnvannot.annotations.piev import piev_load
+from cnvannot.annotations.gene_hg1938 import gene_hg1938_load
 
 from cnvannot.common.coordinates import coordinates_from_string
 
-from cnvannot.queries.basic_queries import query_overlaps_get, compute_overlaps
+from cnvannot.queries.basic_queries import query_overlaps_get, compute_overlaps, filter_hg1938
 from cnvannot.queries.interpretation import interpretation_get
 from cnvannot.queries.specific_queries import exc_overlaps_70_percent, omim_get_organs, inject_sfari, inject_gene_stat
 from cnvannot.queries.scoring import compute_scores
@@ -43,6 +44,7 @@ clinvar_db = clinvar_load()
 sfari_db = sfari_load()
 stat_db = gene_stat_load()
 piev_db = piev_load()
+hg1938_db = gene_hg1938_load()
 
 #XCNV MVP Score Interpretation
 def xcnv_interpretation_from_score(score: float) -> str:
@@ -91,11 +93,14 @@ def search(str_query: str, organ: str, xcnv_on = False):
     cnv_len = query.end - query.start
     cnv_type = str.upper(query.type)
     exclude_overlaps = exc_overlaps_70_percent(encode_db, query)
+    
+    #Compute overlaps on ref database
+    ref_overlaps = compute_overlaps(hg1938_db, query)
     	
 	#Compute Overlaps on OMIM, Decipher, Decipher Stat, Clinvar and DGV, with overlaps rate
-    morbid_gene_overlaps = compute_overlaps(omim_mg_db, query)
+    morbid_gene_overlaps = filter_hg1938(compute_overlaps(omim_mg_db, query), query.ref, ref_overlaps)
     decipher_overlaps = compute_overlaps(decipher_db, query)
-    clinvar_overlaps = compute_overlaps(clinvar_db, query)
+    clinvar_overlaps = filter_hg1938(compute_overlaps(clinvar_db, query), query.ref, ref_overlaps)
     dgv_overlaps = compute_overlaps(dgv_db,query,False,0.1)   
     piev_overlaps = compute_overlaps(piev_db, query)
 
