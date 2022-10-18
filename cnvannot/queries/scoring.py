@@ -24,28 +24,29 @@ def compute_scores(cnv_len,dgv_overlaps,clinvar_overlaps,decipher_overlaps,piev_
 	#Clinvar score
 	clinvar_score = 0
 	clinvar_coef = 0
+	clinvar_scores = []
 	for c in clinvar_overlaps:
 		
 		#All "if" because 1 overlap can have two patho state (ex : Benign/Likely_benign)
 		
 		if "Benign" in c["isPatho"]:
 			clinvar_score += 0
-			clinvar_coef += c["overlaps"]
+			clinvar_scores.append(0)
 		if "Likely_benign" in c["isPatho"]:
-			clinvar_score += 0.25 * c["overlaps"]
-			clinvar_coef += c["overlaps"]
+			clinvar_score += 0.25
+			clinvar_scores.append(0.25)
 		if "Uncertain_significance" in c["isPatho"]:
-			clinvar_score += 0.5 * c["overlaps"]
-			clinvar_coef += c["overlaps"]
+			clinvar_score += 0.5
+			clinvar_scores.append(0.5)
 		if "Likely_pathogenic" in c["isPatho"]:
-			clinvar_score += 0.75 * c["overlaps"]
-			clinvar_coef += c["overlaps"]
+			clinvar_score += 0.75
+			clinvar_scores.append(0.75)
 		if "Pathogenic" in c["isPatho"]:
-			clinvar_score += c["overlaps"]
-			clinvar_coef += c["overlaps"]
+			clinvar_score += 1
+			clinvar_scores.append(1)
 			
-	if clinvar_coef > 0:
-		clinvar_score /= clinvar_coef
+	if len(clinvar_scores) > 0:
+		clinvar_score /= len(clinvar_scores)
 	else:
 		clinvar_score = 0.5
 	
@@ -62,6 +63,8 @@ def compute_scores(cnv_len,dgv_overlaps,clinvar_overlaps,decipher_overlaps,piev_
 	#Decipher score
 	decipher_score = 0
 	decipher_coef = 0
+	decipher_scores = []
+	decipher_coefs = []
 	for d in decipher_overlaps:
 		
 		#All "if" because 1 overlap can have two patho state (ex : Benign/Likely_benign)
@@ -69,18 +72,28 @@ def compute_scores(cnv_len,dgv_overlaps,clinvar_overlaps,decipher_overlaps,piev_
 		if "Benign" in d["pathologic"]:
 			decipher_score += 0
 			decipher_coef += d["overlaps"]
+			decipher_scores.append(0)
+			decipher_coefs.append(d["overlaps"])
 		if "Likely benign" in d["pathologic"]:
 			decipher_score += 0.25 * d["overlaps"]
 			decipher_coef += d["overlaps"]
+			decipher_scores.append(0.25)
+			decipher_coefs.append(d["overlaps"])
 		if "Uncertain" in d["pathologic"]:
 			decipher_score += 0.5 * d["overlaps"]
 			decipher_coef += d["overlaps"]
+			decipher_scores.append(0.5)
+			decipher_coefs.append(d["overlaps"])
 		if "Likely pathogenic" in d["pathologic"]:
 			decipher_score += 0.75 * d["overlaps"]
 			decipher_coef += d["overlaps"]
+			decipher_scores.append(0.75)
+			decipher_coefs.append(d["overlaps"])
 		if "Pathogenic" in d["pathologic"]:
 			decipher_score += d["overlaps"]
 			decipher_coef += d["overlaps"]
+			decipher_scores.append(1)
+			decipher_coefs.append(d["overlaps"])
 	
 	if decipher_coef > 0:		
 		decipher_score /= decipher_coef
@@ -122,5 +135,5 @@ def compute_scores(cnv_len,dgv_overlaps,clinvar_overlaps,decipher_overlaps,piev_
 		piev = 1
 		
 	#Return
-	return {"score":score,"clinvar":clinvar_score,"decipher":decipher_score,"xcnv":xcnv,"criteria":criteria,"is_piev":piev}
+	return {"score":score,"clinvar":clinvar_score,"decipher":decipher_score,"xcnv":xcnv,"criteria":criteria,"is_piev":piev,"clinvar_scores":clinvar_scores,"decipher_scores":decipher_scores,"decipher_coefs":decipher_coefs}
 		

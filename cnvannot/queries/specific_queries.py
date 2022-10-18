@@ -38,7 +38,7 @@ def omim_get_organs(db, query: GenomicCoordinates):
 #Inject Sfari data
 def inject_sfari(data, sfari):
     for d in data:
-        gene = d["omim_gene_aliases"].split("|")[0]
+        gene = d["gene"]
         if gene in sfari:
             d["sfari"] = sfari[gene]
         else:
@@ -47,7 +47,7 @@ def inject_sfari(data, sfari):
 #Inject Gene stat
 def inject_gene_stat(data, gene_stat):
     for d in data:
-        gene = d["omim_gene_aliases"].split("|")[0]
+        gene = d["gene"]
         if gene in gene_stat:
             d["stats"] = gene_stat[gene]
         else:

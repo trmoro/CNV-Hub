@@ -96,6 +96,7 @@ def search(str_query: str, organ: str, xcnv_on = False):
     
     #Compute overlaps on ref database
     ref_overlaps = compute_overlaps(hg1938_db, query)
+    ref_overlaps = filter_hg1938(ref_overlaps, query.ref, ref_overlaps)
     	
 	#Compute Overlaps on OMIM, Decipher, Decipher Stat, Clinvar and DGV, with overlaps rate
     morbid_gene_overlaps = filter_hg1938(compute_overlaps(omim_mg_db, query), query.ref, ref_overlaps)
@@ -107,6 +108,10 @@ def search(str_query: str, organ: str, xcnv_on = False):
     #Inject Sfari and Gene stat in OMIM
     inject_sfari(morbid_gene_overlaps,sfari_db)
     inject_gene_stat(morbid_gene_overlaps,stat_db)
+    
+    #Inject Sfari and Gene stat in RefGene
+    inject_sfari(ref_overlaps,sfari_db)
+    inject_gene_stat(ref_overlaps,stat_db)
      
     #Organ list
     organ_list = omim_get_organs(omim_mg_db, query)
@@ -156,7 +161,8 @@ def search(str_query: str, organ: str, xcnv_on = False):
                     'decipher_overlaps': decipher_overlaps,
                     'clinvar_overlaps': clinvar_overlaps,
                     'dgv_overlaps': dgv_overlaps,
-                    'piev_overlaps': piev_overlaps}
+                    'piev_overlaps': piev_overlaps,
+                    'gene_overlaps': ref_overlaps}
 
 ################# API
 
