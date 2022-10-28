@@ -19,7 +19,7 @@ from cnvannot.annotations.decipher import decipher_load
 from cnvannot.annotations.clinvar import clinvar_load
 from cnvannot.annotations.sfari import sfari_load
 from cnvannot.annotations.gene_stat import gene_stat_load
-from cnvannot.annotations.piev import piev_load
+from cnvannot.annotations.dijon import dijon_load
 from cnvannot.annotations.gene_hg1938 import gene_hg1938_load
 
 from cnvannot.common.coordinates import coordinates_from_string
@@ -43,7 +43,7 @@ decipher_db = decipher_load()
 clinvar_db = clinvar_load()
 sfari_db = sfari_load()
 stat_db = gene_stat_load()
-piev_db = piev_load()
+dijon_db = dijon_load()
 hg1938_db = gene_hg1938_load()
 
 #XCNV MVP Score Interpretation
@@ -98,12 +98,12 @@ def search(str_query: str, organ: str, xcnv_on = False):
     ref_overlaps = compute_overlaps(hg1938_db, query)
     ref_overlaps = filter_hg1938(ref_overlaps, query.ref, ref_overlaps)
     	
-	#Compute Overlaps on OMIM, Decipher, Decipher Stat, Clinvar and DGV, with overlaps rate
+	#Compute Overlaps on OMIM, Decipher, Decipher Stat, Clinvar, DGV and CHU DIJON, with overlaps rate
     morbid_gene_overlaps = filter_hg1938(compute_overlaps(omim_mg_db, query), query.ref, ref_overlaps)
     decipher_overlaps = compute_overlaps(decipher_db, query)
     clinvar_overlaps = filter_hg1938(compute_overlaps(clinvar_db, query), query.ref, ref_overlaps)
     dgv_overlaps = compute_overlaps(dgv_db,query,False,0.1)   
-    piev_overlaps = compute_overlaps(piev_db, query)
+    dijon_overlaps = compute_overlaps(dijon_db, query)
 
     #Inject Sfari and Gene stat in OMIM
     inject_sfari(morbid_gene_overlaps,sfari_db)
@@ -124,7 +124,7 @@ def search(str_query: str, organ: str, xcnv_on = False):
         xcnv_res_interpretation = xcnv_interpretation_from_score(xcnv_res)
         
 	#Compute Scores
-    scores = compute_scores(cnv_len,dgv_overlaps,clinvar_overlaps,decipher_overlaps,piev_overlaps,xcnv_res,xcnv_on)
+    scores = compute_scores(cnv_len,dgv_overlaps,clinvar_overlaps,decipher_overlaps,dijon_overlaps,xcnv_res,xcnv_on)
     #print(scores)
 	
     #CNV Synth interpretation
@@ -161,7 +161,7 @@ def search(str_query: str, organ: str, xcnv_on = False):
                     'decipher_overlaps': decipher_overlaps,
                     'clinvar_overlaps': clinvar_overlaps,
                     'dgv_overlaps': dgv_overlaps,
-                    'piev_overlaps': piev_overlaps,
+                    'dijon_overlaps': dijon_overlaps,
                     'gene_overlaps': ref_overlaps}
 
 ################# API

@@ -1,5 +1,5 @@
 #Compute scores, return [global,xcnv score,omim score,decipher score,clinvar score]
-def compute_scores(cnv_len,dgv_overlaps,clinvar_overlaps,decipher_overlaps,piev_overlaps,xcnv_score,xcnv_on=True):
+def compute_scores(cnv_len,dgv_overlaps,clinvar_overlaps,decipher_overlaps,dijon_overlaps,xcnv_score,xcnv_on=True):
 	
 	criteria = { "cmaj1": [], "cmin2" : [], "cmaj2" : [], "cmin4" : [], "cmaj4" : [], "cmaj5" : [] }
 	
@@ -128,12 +128,28 @@ def compute_scores(cnv_len,dgv_overlaps,clinvar_overlaps,decipher_overlaps,piev_
 	else:
 		score = 0.5
 		
-	#PIEV
+	#Dijon Overlaps
+	dijon = 0
 	piev = 0
-	if len(piev_overlaps) > 0:
-		score = 0.5
-		piev = 1
+	for d in dijon_overlaps:
 		
+		dijon = 1
+		
+		#Pathogenicity
+		if d["pathogenicity"] == "piev":
+			piev = 1
+			score = 0.5
+		elif d["pathogenicity"] == "benign":
+			score = 0
+		elif d["pathogenicity"] == "likely_benign":
+			score = 0.25
+		elif d["pathogenicity"] == "uncertain":
+			score = 0.5
+		elif d["pathogenicity"] == "likely_pathogenic":
+			score = 0.75
+		elif d["pathogenicity"] == "pathogenic":
+			score = 1
+	
 	#Return
-	return {"score":score,"clinvar":clinvar_score,"decipher":decipher_score,"xcnv":xcnv,"criteria":criteria,"is_piev":piev,"clinvar_scores":clinvar_scores,"decipher_scores":decipher_scores,"decipher_coefs":decipher_coefs}
+	return {"score":score,"clinvar":clinvar_score,"decipher":decipher_score,"xcnv":xcnv,"criteria":criteria,"in_dijon":dijon,"is_piev":piev,"clinvar_scores":clinvar_scores,"decipher_scores":decipher_scores,"decipher_coefs":decipher_coefs}
 		
