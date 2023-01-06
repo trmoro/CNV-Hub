@@ -1,5 +1,5 @@
 #Compute scores, return [global,xcnv score,omim score,decipher score,clinvar score]
-def compute_scores(cnv_len,dgv_overlaps,clinvar_overlaps,decipher_overlaps,dijon_overlaps,xcnv_score,xcnv_on=True):
+def compute_scores(cnv_len,dgv_overlaps,clinvar_overlaps,decipher_overlaps,dijon_overlaps):
 	
 	criteria = { "cmaj1": [], "cmin2" : [], "cmaj2" : [], "cmin4" : [], "cmaj4" : [], "cmaj5" : [] }
 	
@@ -110,12 +110,7 @@ def compute_scores(cnv_len,dgv_overlaps,clinvar_overlaps,decipher_overlaps,dijon
 	elif decipher_score < 0.1:
 		criteria["cmaj1"].append("Bibliography : Decipher benignity score is higher than 80 %")
 		
-	#XCNV
-	xcnv = -1
-	if xcnv_on:
-		xcnv = xcnv_score
-		
-	#CNV Hub Score
+	#CNV Hub Mean-Score
 	score = 0
 	coef = len(criteria["cmaj1"]) + len(criteria["cmin2"]) + len(criteria["cmaj2"]) + len(criteria["cmin4"]) + len(criteria["cmaj4"]) + len(criteria["cmaj5"])
 	score += len(criteria["cmaj2"]) * 0.1
@@ -127,6 +122,24 @@ def compute_scores(cnv_len,dgv_overlaps,clinvar_overlaps,decipher_overlaps,dijon
 		score /= coef
 	else:
 		score = 0.5
+		
+	#CNV Hub Score with ACHROPUCE Tree
+	
+	#Likely benign
+	if score > 0.1 and ( (len(criteria["cmaj2"]) > 1) or (len(criteria["cmaj2"]) > 0 and len(criteria["cmin2"]) > 1) ) and len(criteria["cmin4"]) < 2 and len(criteria["cmaj4"]) < 1 and len(criteria["cmaj5"]) < 1:
+		if len(criteria["cmaj1"]) > 0:
+			score = 0
+		else:
+			score = 0.1
+	#Likely patho
+	elif score < 0.9 and ( (len(criteria["cmaj4"]) > 1) or (len(criteria["cmaj4"]) > 0 and len(criteria["cmin4"]) > 1) ) and len(criteria["cmin2"]) < 2 and len(criteria["cmaj2"]) < 1 and len(criteria["cmaj1"]) < 1:
+		if len(criteria["cmaj5"]) > 0:
+			score = 1
+		else:
+			score = 0.9
+			
+	#Machine-computed score
+	computed_score = score
 		
 	#Dijon Overlaps
 	dijon = 0
@@ -151,5 +164,5 @@ def compute_scores(cnv_len,dgv_overlaps,clinvar_overlaps,decipher_overlaps,dijon
 			score = 1
 	
 	#Return
-	return {"score":score,"clinvar":clinvar_score,"decipher":decipher_score,"xcnv":xcnv,"criteria":criteria,"in_dijon":dijon,"is_piev":piev,"clinvar_scores":clinvar_scores,"decipher_scores":decipher_scores,"decipher_coefs":decipher_coefs}
+	return {"score":score,"computed_score":computed_score,"clinvar":clinvar_score,"decipher":decipher_score,"criteria":criteria,"in_dijon":dijon,"is_piev":piev,"clinvar_scores":clinvar_scores,"decipher_scores":decipher_scores,"decipher_coefs":decipher_coefs}
 		
